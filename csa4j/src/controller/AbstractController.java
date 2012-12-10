@@ -1,7 +1,10 @@
 package controller;
 
 import java.io.IOException;
+import java.net.URI;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
 
 import model.Auth;
@@ -17,6 +20,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +32,7 @@ public class AbstractController {
 	private static final int PORT = Config.getPort();
 	
 	/**
-	 * Gets all of specific resource.
+	 * Gets all of specific resource type - such as all Users, or all Broadcasts, depending on the resource type requested. 
 	 * @return If it returns null, it failed.
 	 */
 	public JSONArray indexJSON(Resource resource){
@@ -46,7 +50,7 @@ public class AbstractController {
 				return null;
 			}
 			HttpGet httpGet = new HttpGet(uri);
-
+			
 			Auth.set_auth(httpclient);
 			
 			HttpResponse responseBody = httpclient.execute(httpGet);
@@ -77,7 +81,7 @@ public class AbstractController {
 	}
 	
 	/**
-	 * 
+	 * Create
 	 * @param params
 	 * @return If it fails it returns a JSONObject containing null, else it will return an actual object.
 	 * Example: http://localhost:3000/users.json?user[grad_year]=1985&user[phone]=1234567&user[email]=roflmaozzz@productions.com&user[surname]=surN&user[firstname]=first&user[user_detail_attributes][login]=firstsurN&user[user_detail_attributes][password]=firstsurN
@@ -97,28 +101,51 @@ public class AbstractController {
 		Response res = new UserResponse();
 		try {
 			// Build Uri
-			HttpPost httpPost = null;
+			LinkedList<NameValuePair> ll = new LinkedList<NameValuePair>();			
 			if(resource == Resource.USER){
-				httpPost = new HttpPost("http://localhost:3000/users.json");
+				Enumeration<String> e = params.keys();
+				while(e.hasMoreElements()){		
+					String key = e.nextElement();
+					if(key == "id"){
+						ll.add(new BasicNameValuePair("id", params.get(key)));
+					} else {
+						String s = "user["+key+"]";
+						ll.add(new BasicNameValuePair(s, params.get(key)));
+					}			
+				}				
 			} else if (resource == Resource.BROADCAST){
-				httpPost = new HttpPost("http://localhost:3000/broadcasts.json");
+				Enumeration<String> e = params.keys();
+				while(e.hasMoreElements()){		
+					String key = e.nextElement();
+					if(key == "id"){
+						ll.add(new BasicNameValuePair("id", params.get(key)));
+					} else {
+						String s = "broadcast["+key+"]";
+						ll.add(new BasicNameValuePair(s, params.get(key)));
+					}			
+				}				
 			} else {
 				System.out.println("AbstractController Error: Nonexistant Resource.");
 				return null;
 			}
-			
-			UriMaker um = new UriMaker();
-		    List<NameValuePair> temp = um.make(params, resource); // Makes list.
-		    System.out.println(temp.toString());
-		    UrlEncodedFormEntity uef = new UrlEncodedFormEntity(temp, "utf-8"); // Puts list into UrlEncoded.
-		    System.out.println(uef.getContent().toString());
-		    httpPost.setEntity(uef);
-			//System.out.println(list.toString());
 
+			UriMaker um = new UriMaker();
+			URI uri = null;
+			if(resource == Resource.USER){
+				uri = um.simple_make(Resource.USER.get(), ll);
+			}else if (resource == Resource.BROADCAST){
+				uri = um.simple_make(Resource.BROADCAST.get(), ll);
+			}else{
+				System.out.println("Message: Unidentified resource by AbstractController");
+			}
+			
+			HttpPost httpPost = new HttpPost(uri);
+			System.out.println(httpPost.getURI());
+			
 			Auth.set_auth(httpclient);
 
 			// Create a response handler
-			//ResponseHandler<String> responseHandler = new BasicResponseHandler();
+
 			HttpResponse responseBody = httpclient.execute(httpPost);
 			System.out.println("----------------------------------------");
 
@@ -158,6 +185,7 @@ public class AbstractController {
 	 */
 	public JSONObject showJSON(String uri){
 		DefaultHttpClient httpclient = new DefaultHttpClient();
+		JSONObject jsonResponse = null;
 		try{
 			HttpGet httpGet = new HttpGet(uri);
 
@@ -173,29 +201,13 @@ public class AbstractController {
 			System.out.println(response);
 			System.out.println("----------------------------------------");		
 
-			JSONObject jsonResponse = new JSONObject(response);
-			JSONArray possibleMailError = jsonResponse.optJSONArray("email");
-			if( (possibleMailError != null) && (possibleMailError.getString(0).equals("has already been taken")) ) {
-				System.out.println("User with this email already exists");
-			}
-			else {
-				System.out.println(jsonResponse.toString(2));
-				String surname = jsonResponse.optString("surname");
-				if(surname != null) {
-					//surname was there and is not null
-				}
-				int id = jsonResponse.optInt("id");
-				if(surname != null) {
-					//id was there and is not null
-				}
-			}
-			return jsonResponse;
+			jsonResponse = new JSONObject(response);			
 		} catch (Exception e){
 			System.out.println("Message" + e.getMessage());
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
-		return null;
+		return jsonResponse;
 	}
 	
 	public void destroy(){

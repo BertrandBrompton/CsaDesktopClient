@@ -34,7 +34,7 @@ public class BroadcastController extends AbstractController{
 		JSONObject response = super.showJSON(uri);
 		//TODO: Parse it.
 	}
-	public void destroy(){
+	public void destroy(String uri){
 		
 	}
 }

@@ -29,7 +29,7 @@ public class ControllerTester {
 		create_params.put("surname", "surN");
 		
 		Hashtable<String, String> broadcast_params = new Hashtable<String, String>();
-		broadcast_params.put("content", "meepoo1");
+		broadcast_params.put("content", "nooob");
 		/*
 		 * Controller tests.
 		 */
@@ -40,18 +40,18 @@ public class ControllerTester {
 		//usc.show("http://localhost:3000/users/42.json");
 		//bsc.show("http://localhost:3000/broadcasts/20.json");
 		//usc.index();
-		//bsc.create(broadcast_params);
+		usc.search("chris");
 		//usc.create(create_params);		
 		//bsc.index();
-		
+		//usc.update("http://localhost:3000/users/64.json?user[firstname]=jim");
 		// WIERD BUG:
-		
+		//bsc.create(broadcast_params); // gives odd errors.
 
 		/*
 		 * NOT WORKING:
 		 */
-		// URI Not working!
-		//usc.update("http://localhost:3000/users/64.json?");
+		
+		
 	}
 
 }
