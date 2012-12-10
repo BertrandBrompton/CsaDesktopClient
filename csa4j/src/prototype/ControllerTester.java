@@ -21,10 +21,10 @@ public class ControllerTester {
 		 */
 		Hashtable<String, String> create_params = new Hashtable<String, String>();		
 		//"ffgfdfffegr@sdf.com", "first", "1985", "false", "1234567", "surN"
-		create_params.put("email", "ffgfdfffegr@sdf.com");
+		create_params.put("email", "lolobunny@productions.com");
 		create_params.put("firstname", "first");
-		create_params.put("age", "1985");
-		create_params.put("jobs", "false");
+		create_params.put("grad_year", "1985");
+		//create_params.put("jobs", "false");
 		create_params.put("phone", "1234567");
 		create_params.put("surname", "surN");
 		
@@ -38,9 +38,11 @@ public class ControllerTester {
 		 */
 		
 		//usc.show("http://localhost:3000/users/42.json");
-		//usc.index()
-		
-		//bsc.index()
+		//bsc.show("http://localhost:3000/broadcasts/20.json");
+		//usc.index();
+		//bsc.create(broadcast_params);
+		//usc.create(create_params);		
+		//bsc.index();
 		
 		// WIERD BUG:
 		
@@ -48,9 +50,8 @@ public class ControllerTester {
 		/*
 		 * NOT WORKING:
 		 */
-		//
-		//bsc.create(broadcast_params);
-		//usc.create(create_params);
+		// URI Not working!
+		//usc.update("http://localhost:3000/users/64.json?");
 	}
 
 }

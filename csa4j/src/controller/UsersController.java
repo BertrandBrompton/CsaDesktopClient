@@ -3,7 +3,10 @@ import java.net.URI;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import model.Auth;
 import model.Resource;
+import model.response.Response;
+import model.response.UserResponse;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -16,16 +19,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 
 public class UsersController extends AbstractController{
-	
-	
-	public UsersController(){
-		
+	public void login(String username, String password){
+		Auth.set_username(username);
+		Auth.set_password(password);
 	}
 	public void search(){
-		JSONObject response = super.indexJSON(Resource.USER);
+		JSONArray response = super.indexJSON(Resource.USER);
 		//JSONArray array = response.names();
 		//TODO: Parse it.
 	}
@@ -34,7 +37,7 @@ public class UsersController extends AbstractController{
 	 * 
 	 */
 	public void index(){
-		JSONObject response = super.indexJSON(Resource.USER);
+		JSONArray response = super.indexJSON(Resource.USER);
 		//TODO: Parse it.
 	}
 	
@@ -43,18 +46,22 @@ public class UsersController extends AbstractController{
 	 * @param params
 	 */
 	public void create(Hashtable<String, String> params){
-		JSONObject response = super.createJSON(params);
+		Response response = super.createJSON(params, Resource.USER);
 		//TODO: Parse it.
 	}
 	
 	/**
-	 * Creates a new user. Named as such because keyword new not allowed.
+	 * Shows a new user their page. No need to implement. 
 	 */
 	public void newUser(){
-		
+		// Not json
 	}
+	
+	/**
+	 * 
+	 */
 	public void edit(){
-		
+		// Not json
 	}
 	
 	/**
@@ -65,25 +72,27 @@ public class UsersController extends AbstractController{
 		JSONObject response = super.showJSON(uri);
 		//TODO: Parse it.
 	}
+	
 	/**
 	 * Updates a user's details. Uses Puts for RESTful.
 	 */
 	public void update(String uri){
-		JSONObject response = this.updateJSON(uri);
+		Response response = this.updateJSON(uri);
 	}
 
 	public void destroy(){
 		
 	}
-	private JSONObject updateJSON(String uri) {
+	
+	private Response updateJSON(String uri) {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		JSONObject jsonResponse = null;
+		Object json = null;
+		Response res = new UserResponse();
 		try{
 			HttpPut httpPuts = new HttpPut(uri);
 
-			httpclient.getCredentialsProvider().setCredentials(
-					new AuthScope("localhost", 3000),
-					new UsernamePasswordCredentials("admin", "taliesin"));
+			Auth.set_auth(httpclient);
 
 			//System.out.println("executing request " + httpget.getURI());
 
@@ -96,27 +105,24 @@ public class UsersController extends AbstractController{
 			System.out.println("----------------------------------------");		
 
 			jsonResponse = new JSONObject(response);
-			JSONArray possibleMailError = jsonResponse.optJSONArray("email");
-			if( (possibleMailError != null) && (possibleMailError.getString(0).equals("has already been taken")) ) {
-				System.out.println("User with this email already exists");
-			}
-			else {
-				System.out.println(jsonResponse.toString(2));
-				String surname = jsonResponse.optString("surname");
-				if(surname != null) {
-					//surname was there and is not null
-				}
-				int id = jsonResponse.optInt("id");
-				if(surname != null) {
-					//id was there and is not null
-				}
-			} 
+			json = new JSONTokener(response).nextValue();
+			if (json instanceof JSONObject){
+				  //you have an object
+					json = new JSONObject(response);
+					System.out.println(json.toString());
+			}else if (json instanceof JSONArray){
+				  //you have an array
+					json = new JSONArray(response);
+					System.out.println(json.toString());
+			}			
+			//JSONArray possibleMailError = jsonResponse.optJSONArray("email");
+
 		} catch (Exception e){
 			System.out.println("Message" + e.getMessage());
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
-		return jsonResponse;	
+		return res;	
 	}
 	
 }
