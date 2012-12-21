@@ -14,27 +14,36 @@ import org.json.JSONObject;
  */
 public class BroadcastController extends AbstractController{
 	
+	/**
+	 * Gets all broadcasts - upto limit of pagination, which I believe to be defaulted to 8.
+	 */
 	public void index(){
 		JSONArray response = super.indexJSON(Resource.BROADCAST);
 		//TODO: Parse it.
 	}
 	
+	/**
+	 * Creates a broadcast resource using parameters passed in.
+	 * @param params
+	 */
 	public void create(Hashtable<String, String> params){
 		Response response = super.createJSON(params, Resource.BROADCAST);
 		//TODO: Parse it.
 	}
 	
 	/**
-	 * This method creates a new broadcast. It does not rely on inheritence.
+	 * Shows a broadcast resource at target uri location.
+	 * @param uri
 	 */
-	public void newBroadcast(){
-		//TODO: Make broadcast respond properly to JSON.
-	}
 	public void show(String uri){
 		JSONObject response = super.showJSON(uri);
-		//TODO: Parse it.
 	}
+	
+	/**
+	 * Destroys a target broadcast resource at target uri location.
+	 * @param uri
+	 */
 	public void destroy(String uri){
-		
+		super.destroyJSON(uri);
 	}
 }

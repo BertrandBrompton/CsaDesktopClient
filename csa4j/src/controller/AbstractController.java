@@ -17,6 +17,7 @@ import model.uri.UriMaker;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -54,11 +55,11 @@ public class AbstractController {
 			Auth.set_auth(httpclient);
 			
 			HttpResponse responseBody = httpclient.execute(httpGet);
-			System.out.println("----------------------------------------");
+//			System.out.println("----------------------------------------");
 
 			String response = EntityUtils.toString(responseBody.getEntity());
 
-			System.out.println(response);
+//			System.out.println(response);
 			System.out.println("----------------------------------------");		
 			System.out.println();
 			
@@ -70,7 +71,7 @@ public class AbstractController {
 			}else if (json instanceof JSONArray){
 				  //you have an array
 					json = new JSONArray(response);
-					System.out.println(json.toString());
+					System.out.println(((JSONArray) json).length()+"");
 			}
 		} catch (Exception e){
 			System.out.println("Message" + e.getMessage());
@@ -81,7 +82,7 @@ public class AbstractController {
 	}
 	
 	/**
-	 * Create
+	 * Creates a resource depending on type of resource parsed in and the parameters of the request.
 	 * @param params
 	 * @return If it fails it returns a JSONObject containing null, else it will return an actual object.
 	 * Example: http://localhost:3000/users.json?user[grad_year]=1985&user[phone]=1234567&user[email]=roflmaozzz@productions.com&user[surname]=surN&user[firstname]=first&user[user_detail_attributes][login]=firstsurN&user[user_detail_attributes][password]=firstsurN
@@ -147,11 +148,11 @@ public class AbstractController {
 			// Create a response handler
 
 			HttpResponse responseBody = httpclient.execute(httpPost);
-			System.out.println("----------------------------------------");
+			//System.out.println("----------------------------------------");
 
 			String response = EntityUtils.toString(responseBody.getEntity());
 
-			System.out.println(response);
+			//System.out.println(response);
 			System.out.println("----------------------------------------");		
 			//TODO: Fix this.
 			//jsonResponse = new JSONObject(response);
@@ -179,6 +180,7 @@ public class AbstractController {
 	}
 	
 	/**
+	 * Provides the show functionality using a GET operation.
 	 * Example uri for user: "http://localhost:3000/users/42.json"
 	 * Example uri for broadcast: "http://localhost:3000/broadcasts/20.json"
 	 * @param uri
@@ -194,6 +196,38 @@ public class AbstractController {
 			//System.out.println("executing request " + httpget.getURI());
 
 			HttpResponse responseBody = httpclient.execute(httpGet);
+			//System.out.println("----------------------------------------");
+
+			String response = EntityUtils.toString(responseBody.getEntity());
+
+			//System.out.println(response);
+			System.out.println("----------------------------------------");		
+
+			jsonResponse = new JSONObject(response);
+			System.out.println(jsonResponse.toString());
+		} catch (Exception e){
+			System.out.println("Message" + e.getMessage());
+			
+		} finally {
+			httpclient.getConnectionManager().shutdown();
+		}
+		return jsonResponse;
+	}
+	/**
+	 * Destroys a resource at target uri.
+	 * @param uri
+	 */
+	public void destroyJSON(String uri){
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		JSONObject jsonResponse = null;
+		try{
+			HttpDelete httpDelete = new HttpDelete(uri);
+
+			Auth.set_auth(httpclient);
+
+			//System.out.println("executing request " + httpget.getURI());
+
+			HttpResponse responseBody = httpclient.execute(httpDelete);
 			System.out.println("----------------------------------------");
 
 			String response = EntityUtils.toString(responseBody.getEntity());
@@ -206,43 +240,6 @@ public class AbstractController {
 			System.out.println("Message" + e.getMessage());
 		} finally {
 			httpclient.getConnectionManager().shutdown();
-		}
-		return jsonResponse;
+		}		
 	}
-	
-	public void destroy(){
-		
-	}
-	
-	//JSONArray possibleMailError = jsonResponse.optJSONArray("email");
-	
-	//if( (possibleMailError != null) && (possibleMailError.getString(0).equals("has already been taken")) ) {
-	//	System.out.println("User with this email already exists");
-	//}
-	//else {
-	//	System.out.println(jsonResponse.toString(2));
-	//	String surname = jsonResponse.optString("surname");
-		//if(surname != null) {
-		//	//surname was there and is not null
-		//}
-	//	int id = jsonResponse.optInt("id");
-		//if(id != null) {
-		///	//id was there and is not null
-		//}
-	//}
-	
-	//	URIBuilder urib = new URIBuilder();
-	//	urib.setHost(HOST);
-	//	urib.setPort(PORT);
-	//	
-	//	Enumeration<String> e = params.keys();
-	//	
-	//	while(e.hasMoreElements()){		// Maps input params to the uri parameters.
-	//		String ele = e.nextElement();				
-	//		urib.addParameter(ele, params.get(ele));
-	//	    System.out.println(ele + " + " + params.get(ele));
-	//	}
-	//	URI uri = urib.build();
-	//	System.out.println(uri.toString());
-	//	System.out.println();
 }

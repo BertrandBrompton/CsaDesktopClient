@@ -12,6 +12,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.junit.Before;
 import org.junit.Test;
 
+import controller.UsersController;
+
 public class UriMakerTest {
 	UriMaker um;
 	LinkedList<NameValuePair> ll;
@@ -36,6 +38,20 @@ public class UriMakerTest {
 	@Test
 	public void test_simple_make() {
 		uri = um.simple_make("/users.json", ll);
+		
+		UsersController usc = new UsersController();
+		
+		//usc.show("http://localhost:3000/users/42.json");
+		//bsc.show("http://localhost:3000/broadcasts/20.json");
+		//usc.index();
+		usc.search("chris");
+		//usc.create(create_params);		
+		//bsc.index();
+		//usc.update("http://localhost:3000/users/64.json?user[firstname]=jim");
+		// WIERD BUG:
+		//bsc.create(broadcast_params); // gives odd errors.
+		
+		
 		System.out.println(uri.toString());
 		//assertEquals()
 		

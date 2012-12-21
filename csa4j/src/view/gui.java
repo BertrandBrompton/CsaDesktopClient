@@ -22,7 +22,7 @@ import prototype.controller;
 
 public class gui {
 
-	protected Shell shell;
+	protected Shell shlCsaApplication;
 	private Text text;
 	private Text text_1;
 	private Button btnLogin;
@@ -49,9 +49,9 @@ public class gui {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		shell.open();
-		shell.layout();
-		while (!shell.isDisposed()) {
+		shlCsaApplication.open();
+		shlCsaApplication.layout();
+		while (!shlCsaApplication.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
@@ -62,12 +62,12 @@ public class gui {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shell = new Shell();
-		shell.setSize(498, 300);
-		shell.setText("SWT Application");
+		shlCsaApplication = new Shell();
+		shlCsaApplication.setSize(702, 474);
+		shlCsaApplication.setText("CSA application");
 		
-		TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
-		tabFolder.setBounds(0, 65, 482, 197);
+		TabFolder tabFolder = new TabFolder(shlCsaApplication, SWT.NONE);
+		tabFolder.setBounds(0, 65, 643, 333);
 		
 		TabItem tbtmHome_1 = new TabItem(tabFolder, SWT.NONE);
 		tbtmHome_1.setText("Home");
@@ -88,29 +88,29 @@ public class gui {
 		TabItem tbtmNewItem_3 = new TabItem(tabFolder, SWT.NONE);
 		tbtmNewItem_3.setText("Broadcasts");
 		
-		Button btnEnglish = new Button(shell, SWT.NONE);
+		Button btnEnglish = new Button(shlCsaApplication, SWT.NONE);
 		btnEnglish.setBounds(0, 0, 75, 25);
 		btnEnglish.setText("English");
 		
-		Button btnCymraeg = new Button(shell, SWT.NONE);
+		Button btnCymraeg = new Button(shlCsaApplication, SWT.NONE);
 		btnCymraeg.setBounds(0, 31, 75, 25);
 		btnCymraeg.setText("Cymraeg");
 		
-		text = new Text(shell, SWT.BORDER);
+		text = new Text(shlCsaApplication, SWT.BORDER);
 		text.setBounds(177, 0, 76, 21);
 		
-		Label lblUsername = new Label(shell, SWT.NONE);
+		Label lblUsername = new Label(shlCsaApplication, SWT.NONE);
 		lblUsername.setBounds(116, 5, 55, 15);
 		lblUsername.setText("Username");
 		
-		text_1 = new Text(shell, SWT.BORDER);
+		text_1 = new Text(shlCsaApplication, SWT.BORDER);
 		text_1.setBounds(326, 0, 76, 21);
 		
-		Label lblPassword = new Label(shell, SWT.NONE);
+		Label lblPassword = new Label(shlCsaApplication, SWT.NONE);
 		lblPassword.setBounds(265, 5, 55, 15);
 		lblPassword.setText("Password");
 		
-		btnLogin = new Button(shell, SWT.NONE);
+		btnLogin = new Button(shlCsaApplication, SWT.NONE);
 
 		btnLogin.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -127,28 +127,28 @@ public class gui {
 		btnLogin.setBounds(407, 0, 75, 25);
 		btnLogin.setText("Login");
 		
-		Label label = new Label(shell, SWT.SEPARATOR | SWT.VERTICAL);
+		Label label = new Label(shlCsaApplication, SWT.SEPARATOR | SWT.VERTICAL);
 		label.setBounds(88, -5, 2, 64);
 		
-		Label label_1 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
+		Label label_1 = new Label(shlCsaApplication, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label_1.setBounds(418, 31, 64, 2);
 		
-		Label label_2 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
+		Label label_2 = new Label(shlCsaApplication, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label_2.setBounds(353, 31, 64, 2);
 		
-		Label label_3 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
+		Label label_3 = new Label(shlCsaApplication, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label_3.setBounds(88, 31, 273, 2);
 		
-		Button btnForgotPassw = new Button(shell, SWT.NONE);
+		Button btnForgotPassw = new Button(shlCsaApplication, SWT.NONE);
 		
 		btnForgotPassw.setBounds(407, 34, 75, 25);
 		btnForgotPassw.setText("Forgot");
 		
-		Button btnRegister = new Button(shell, SWT.NONE);
+		Button btnRegister = new Button(shlCsaApplication, SWT.NONE);
 		btnRegister.setBounds(326, 34, 75, 25);
 		btnRegister.setText("Register");
 		
-		Button btnNewButton = new Button(shell, SWT.NONE);
+		Button btnNewButton = new Button(shlCsaApplication, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {

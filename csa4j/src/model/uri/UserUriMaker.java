@@ -9,6 +9,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 public class UserUriMaker {
+	@Deprecated
 	protected List<NameValuePair> make(LinkedList<NameValuePair> linkedlist, Hashtable<String, String> ht){
 		Enumeration<String> e = ht.keys();
 		while(e.hasMoreElements()){		

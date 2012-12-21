@@ -8,6 +8,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 public class BroadcastUriMaker {
+	@Deprecated
 	protected List<NameValuePair> make(LinkedList<NameValuePair> linkedlist, Hashtable<String, String> ht){
 		/*
 		 * broadcast[content] bleble

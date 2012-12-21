@@ -2,6 +2,8 @@ package prototype;
 
 import java.util.Hashtable;
 
+import model.response.Response;
+
 import controller.BroadcastController;
 import controller.UsersController;
 
@@ -21,7 +23,7 @@ public class ControllerTester {
 		 */
 		Hashtable<String, String> create_params = new Hashtable<String, String>();		
 		//"ffgfdfffegr@sdf.com", "first", "1985", "false", "1234567", "surN"
-		create_params.put("email", "lolobunny@productions.com");
+		create_params.put("email", "wdwdawd@jurasicParkzz.com");
 		create_params.put("firstname", "first");
 		create_params.put("grad_year", "1985");
 		//create_params.put("jobs", "false");
@@ -29,28 +31,24 @@ public class ControllerTester {
 		create_params.put("surname", "surN");
 		
 		Hashtable<String, String> broadcast_params = new Hashtable<String, String>();
-		broadcast_params.put("content", "nooob");
+		broadcast_params.put("content", "dwdwdwd");
 		/*
 		 * Controller tests.
 		 */
 		/*
 		 * WORKING:
 		 */
+		//usc.search("chris");
+		//usc.index(); // PAGINATION AFFECTS RESPONSE. MAX 6 BY DEFAULT.
+		//usc.create(create_params);
+		//usc.show("http://localhost:3000/users/68.json");
+		//usc.update("http://localhost:3000/users/68.json?user[firstname]=jim");
+		//usc.destroy("http://localhost:3000/users/68.json");
 		
-		//usc.show("http://localhost:3000/users/42.json");
-		//bsc.show("http://localhost:3000/broadcasts/20.json");
-		//usc.index();
-		usc.search("chris");
-		//usc.create(create_params);		
-		//bsc.index();
-		//usc.update("http://localhost:3000/users/64.json?user[firstname]=jim");
-		// WIERD BUG:
+		//bsc.index(); // PAGINATION AFFECTS RESPONSE. MAX 8 BY DEFAULT.
 		//bsc.create(broadcast_params); // gives odd errors.
-
-		/*
-		 * NOT WORKING:
-		 */
-		
+		//bsc.show("http://localhost:3000/broadcasts/36.json");
+		bsc.destroy("http://localhost:3000/broadcasts/36.json");
 		
 	}
 

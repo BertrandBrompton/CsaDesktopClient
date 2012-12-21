@@ -41,13 +41,13 @@ public class UsersController extends AbstractController{
 	 * Encapsulates the search functionality. It wraps around the searchJSON method providing URI building. In RESTful standard, GET is responsible for search action.
 	 * @param query The search term to be queried.
 	 */
-	public void search(String query){
+	public Response search(String query){
 		//TODO: Parse it.
 		UriMaker um = new UriMaker();
 		LinkedList<NameValuePair> ll = new LinkedList<NameValuePair>();
 		ll.add(new BasicNameValuePair("q", query));
 		URI uri = um.simple_make("/users/search.json", ll);
-		Response res = this.searchJSON(uri);
+		return this.searchJSON(uri);
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class UsersController extends AbstractController{
 	}
 
 	public void destroy(String uri){
-		
+		super.destroyJSON(uri);
 	}
 	
 	private Response updateJSON(String uri) {
@@ -100,11 +100,11 @@ public class UsersController extends AbstractController{
 			//System.out.println("executing request " + httpget.getURI());
 
 			HttpResponse responseBody = httpclient.execute(httpPuts);
-			System.out.println("----------------------------------------");
+//			System.out.println("----------------------------------------");
 
 			String response = EntityUtils.toString(responseBody.getEntity());
 
-			System.out.println(response);
+//			System.out.println(response);
 			System.out.println("----------------------------------------");		
 
 			//jsonResponse = new JSONObject(response);
@@ -139,11 +139,11 @@ public class UsersController extends AbstractController{
 			//System.out.println("executing request " + httpget.getURI());
 
 			HttpResponse responseBody = httpclient.execute(httpGet);
-			System.out.println("----------------------------------------");
+//			System.out.println("----------------------------------------");
 
 			String response = EntityUtils.toString(responseBody.getEntity());
 
-			System.out.println(response);
+//			System.out.println(response);
 			System.out.println("----------------------------------------");		
 
 	//		jsonResponse = new JSONObject(response);

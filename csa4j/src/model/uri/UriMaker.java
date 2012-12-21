@@ -17,9 +17,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 public class UriMaker {
 	
-/**
- * My own custom built URI Maker for the CSA App. 
- */
+	@Deprecated
 	public List<NameValuePair> make(Hashtable<String, String> ht, Resource type){
 		LinkedList<NameValuePair> linkedlist = new LinkedList<NameValuePair>();
 			
@@ -34,7 +32,7 @@ public class UriMaker {
 	}
 	
 	/**
-	 * 
+	 * A simple make function that works on both broadcast and user resource types.
 	 * @return
 	 */
 	public URI simple_make(String path, LinkedList<NameValuePair> ll){
